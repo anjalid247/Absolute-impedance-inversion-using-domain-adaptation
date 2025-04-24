@@ -72,25 +72,6 @@ def unnormalized_n(AI_pred,model):
 
     return y_pred_un
 
-class GetLSTMOutput(nn.Module):
-    def forward(self, x):
-        out, _ = x
-        return out
-    
-class GRUinput(nn.Module):
-    def forward(self,x):
-        temp_x = x.transpose(-1,-2)
-        return temp_x
-    
-class GRUinv(nn.Module):
-    def forward(self,x):
-        x_inv=x.transpose(-1,-2)
-        return x_inv
-    
-class GRUunits(nn.Module):
-    def forward(self,x):
-        self.rnn1 = nn.GRU()
-
 class CustomModule(nn.Module):
     def __init__(self):
         super(CustomModule,self).__init__()
