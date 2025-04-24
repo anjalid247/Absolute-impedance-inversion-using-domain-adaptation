@@ -15,14 +15,6 @@ def loop_iterable(iterable):
         yield from iterable
 
 
-class GrayscaleToRgb:
-    """Convert a grayscale image to rgb"""
-    def __call__(self, image):
-        image = np.array(image)
-        image = np.dstack([image, image, image])
-        return Image.fromarray(image)
-
-
 class GradientReversalFunction(Function):
     """
     Gradient Reversal Layer from:
