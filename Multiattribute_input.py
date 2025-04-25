@@ -123,6 +123,7 @@ wav_est = np.concatenate((np.flipud(wav_est[1:]), wav_est), axis=0)
 wav_est = wav_est/wav_est.max()
 wcentre = np.argmax(np.abs(wav_est))
 
+#to smooth the envelope curve
 from scipy.signal import savgol_filter
 yhat= savgol_filter(wav_est_fft_env, 51,2) # window size 51, polynomial order 2
 
