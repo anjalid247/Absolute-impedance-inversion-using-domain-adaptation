@@ -4,7 +4,8 @@ import torch
 import numpy as np
 
 
-#################  1-D TCN Model by Mustafa et al. ###################################################
+#1-D TCN Model from: Mustafa et al.
+   
 class Chomp1d(nn.Module):
     def __init__(self, chomp_size):
         super(Chomp1d, self).__init__()
@@ -71,9 +72,9 @@ class TemporalConvNet(nn.Module):
         return self.network(x)
 
  
-class MustafaNet(nn.Module):
+class Net(nn.Module):
     def __init__(self):
-        super(MustafaNet, self).__init__()
+        super(Net, self).__init__()
         self.tcn_local = TemporalConvNet(num_inputs=3, num_channels=[3, 6, 6, 6, 6, 6, 5], kernel_size=9, dropout=0.2)
         self.regression = nn.Sequential(nn.Conv1d(in_channels=5, out_channels=1, kernel_size=1))
         
@@ -84,28 +85,3 @@ class MustafaNet(nn.Module):
         out = self.regression(out)
         
         return out
-    
-class Forwardmodel(nn.Module):
-    def __init__(self, resolution_ratio=1):
-        super(Forwardmodel, self).__init__()
-        self.resolution_ratio = resolution_ratio
-        self.activation =  nn.ReLU()
-        self.cnn = nn.Sequential(nn.Conv1d(in_channels=1, out_channels=4, kernel_size=9, padding=4),
-                                 self.activation,
-                                 nn.Conv1d(in_channels=4, out_channels=4,kernel_size=7, padding=3),
-                                 self.activation,
-                                 nn.Conv1d(in_channels=4, out_channels=1,kernel_size=3, padding=1))
-
-
-        self.wavelet = nn.Conv1d(in_channels=1,
-                             out_channels=1,
-                             stride=self.resolution_ratio,
-                             kernel_size=50,
-                             padding=int((50-self.resolution_ratio+2)/2))
-
-    def forward(self, x):
-        x = self.cnn(x)
-        x = self.wavelet(x)
-        return x
-
-
