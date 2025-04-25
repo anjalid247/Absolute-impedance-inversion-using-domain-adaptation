@@ -9,7 +9,7 @@ from os.path import join
 from core.utils_copy5 import standardize, unnormalized, CustomModule
 from core.datasets_copy import SeismicDataset1D
 from torch.utils.data import DataLoader
-from core.model1D_copy import MustafaNet
+from core.model1D_copy import Net
 from core.utils_DANN import GradientReversal
 import tqdm
 import torch.nn.functional as F
@@ -35,7 +35,7 @@ def set_seed(x):
 
 def main(args):
     
-    model = MustafaNet().to(device)
+    model = Net().to(device)
     torch.manual_seed(40)
 
     feature_extractor= model.tcn_local
@@ -151,9 +151,6 @@ def main(args):
       torch.save(model,'saved_models/seam_revgrad_model_syn.pth')
       
       domain_label1 = domain_y.detach().cpu().numpy()
-      feat = features1.detach().cpu().numpy()
-      feats= np.column_stack((feat,domain_label1))
-      #np.save('feat_mod100.npy', feats, allow_pickle=True)
 
     domain_loss2 = np.array(dl, dtype='float32')
     label_loss2 = np.array(ll, dtype='float32')
