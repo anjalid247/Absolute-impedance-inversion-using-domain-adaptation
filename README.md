@@ -12,3 +12,6 @@ The implmentation of the DANN along with multi-attribute approach is discussed i
 
 # Running the code
 This code is built using PyTorch with GPU support. Follow the instructions on PyTorch's website to install it properly. The code can also be run without GPU, but it will be much slower.
+
+# Data
+The data required to run the train_DANN.py file, 
