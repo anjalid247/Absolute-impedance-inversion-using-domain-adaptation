@@ -14,4 +14,5 @@ The implmentation of the DANN along with multi-attribute approach is discussed i
 This code is built using PyTorch with GPU support. Follow the instructions on PyTorch's website to install it properly. The code can also be run without GPU, but it will be much slower.
 
 # Data
-The data required to run the train_DANN.py file, 
+The data required to run the train_DANN.py file, download the processed multi-attribute input data of Marmousi2 and SEAM subsalt model from;
+https://iitk-my.sharepoint.com/:f:/g/personal/anjalid_iitk_ac_in/EhDB5EVNMytIse3pmNgY5M8B9s5CB6i5EH9ywYLRLnq0sQ?e=BA96Q3
