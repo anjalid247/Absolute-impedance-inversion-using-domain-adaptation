@@ -15,11 +15,10 @@ import tqdm
 import torch.nn.functional as F
 from tqdm import tqdm
 import copy
-
 import errno
 import argparse
 torch.autograd.set_detect_anomaly(True)
-#from core.models import inverse_model
+
 
 device =  torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
@@ -209,7 +208,7 @@ def test(args):
     AI_pred_un = unnormalized(AI_pred, model_train, args.no_wells)
     AI_act_un = unnormalized(AI_act,model_train, args.no_wells)
 
-    np.save('outputs/seam_AI_pred_revgrad.npy', AI_pred_un, allow_pickle=True)
+    np.save('output/seam_AI_pred_revgrad.npy', AI_pred_un, allow_pickle=True)
     
 
     print(AI_pred.shape)
