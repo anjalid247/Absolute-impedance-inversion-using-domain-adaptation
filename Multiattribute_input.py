@@ -8,11 +8,11 @@ from scipy.signal import hilbert
 from scipy.signal import remez, minimum_phase
 #print(scipy.__version__)
 
-# Loading SEAM model --traget domain
+# Loading SEAM model --target domain
 model= np.load('Lowfreq_segyfiles/Seam_model_full.npy')[:,::2][:, 50:]
 print(model.shape)
 
-# genere ref series 
+# generate ref series 
 rc = np.zeros((1502,701))
 
 for j in range(model.shape[1]-1):
@@ -26,7 +26,7 @@ desired = [1,0]
 h_linear = remez(2**5, freq, desired, fs=fs)
 h_min= minimum_phase(h_linear, method='hilbert')
 
-#visulization of min phase wavelet
+# visualization of min phase wavelet
 plt.plot(h_min, c='C1')
 plt.xlim(0,len(h_linear)-1)
 plt.xlabel('Samples')
@@ -51,7 +51,7 @@ plt.colorbar()
 plt.axis('tight')
 plt.show();
 
-# Bandlimit the genereted syn seismic
+# Bandlimit the generated syn seismic
 # 1. Frequency filter
 sos = signal.butter(5, [40,280], 'bandpass', fs=1000, output='sos')
 syn_band = signal.sosfilt(sos, syn_s)
@@ -81,9 +81,7 @@ plt.xticks(np.arange(0,125, step=5))
 plt.tight_layout()
 plt.show()
 
-
-
-# Generete seismic envelope and inst phase attribute using bandlimited seismic 
+# Generate seismic envelope and inst phase attribute using bandlimited seismic 
 #1. Envelope
 syn_band = syn_band.squeeze()
 hil = hilbert(syn_band)
