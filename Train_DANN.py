@@ -55,8 +55,8 @@ def main(args):
           nn.Linear(10,1)
     ).to(device)
 
-    seismic_m2 = np.load('Lowfreq_segyfiles/input_LFnew_seismic_3c_DA.npy').squeeze()
-    model_m2= np.load('Lowfreq_segyfiles/input_LFnew_imp_3c_DA.npy').squeeze()
+    seismic_m2 = np.load('data/input_LFnew_seismic_3c_DA.npy').squeeze()
+    model_m2= np.load('data/input_LFnew_imp_3c_DA.npy').squeeze()
 
     seismic_n_m2, model_n_m2 = standardize(seismic_m2, seismic_m2, model_m2,model_m2, no_wells=12000)   
 
@@ -69,8 +69,8 @@ def main(args):
     loader_source = DataLoader(seam_train_dataset_source, batch_size = args.batch_size, shuffle=True)
 
 
-    seismic_s = np.load('Lowfreq_segyfiles/seam_input_3c_DA_minip.npy')[:,:,::2][:, :, 50:]
-    model_s = np.load('Lowfreq_segyfiles/seam_model_DA_5to120.npy')[:,::2][:, 50:]
+    seismic_s = np.load('data/seam_input_3c_DA_minip.npy')[:,:,::2][:, :, 50:]
+    model_s = np.load('data/seam_model_DA_5to120.npy')[:,::2][:, 50:]
 
     seismic_n, model_n = standardize(seismic_s,seismic_s, model_s,model_s, no_wells=150)
         
@@ -84,8 +84,8 @@ def main(args):
     loader_target = DataLoader(seam_train_dataset_target, batch_size = args.batch_size, shuffle=True)
     
     #unlabled data_target
-    seismic_s1 = np.load('Lowfreq_segyfiles/seam_input_LFnew_3c_minip.npy')[:,:,::2][:, :, 50:]
-    model_s1 = np.load('Lowfreq_segyfiles/Seam_model_full.npy')[:,::2][:, 50:]
+    seismic_s1 = np.load('data/seam_input_LFnew_3c_minip.npy')[:,:,::2][:, :, 50:]
+    model_s1 = np.load('data/Seam_model_full.npy')[:,::2][:, 50:]
    
     
     traces_seam_validation = np.linspace(0, len(seismic_s1)-1, 1502, dtype=int)
@@ -131,9 +131,6 @@ def main(args):
         domain_loss = F.binary_cross_entropy_with_logits(domain_preds, domain_y)
         label_loss = F.mse_loss(label_preds, label_y)
         r = label_loss.item()/(domain_loss.item()+00000000.1)
-      
-        alpha_1 = r*((2/(1+np.exp(-p)))-1) 
-        #loss = label_loss/(index) + alpha_1*(domain_loss)/(index+target_x_val.shape[0])
         loss = r*domain_loss + label_loss
         optimizer_seam.zero_grad()
         loss.backward()
@@ -150,8 +147,8 @@ def main(args):
       ll.append(mean_label)
       #print(len(dl))
 
-      torch.save(model.state_dict(), 'saved_models_g/psdn_revgrad_git1_syn.pth')
-      torch.save(model,'saved_models_g/psdn_revgrad_model_git1_syn.pth')
+      torch.save(model.state_dict(), 'saved_models/seam_revgrad_syn.pth')
+      torch.save(model,'saved_models/seam_revgrad_model_syn.pth')
       
       domain_label1 = domain_y.detach().cpu().numpy()
       feat = features1.detach().cpu().numpy()
@@ -162,21 +159,20 @@ def main(args):
     label_loss2 = np.array(ll, dtype='float32')
     print(domain_loss2.shape)
 
-    np.save('outputs/domain_loss_git1_syn.npy', domain_loss2, allow_pickle=True)
-    np.save('outputs/label_loss_git1_syn.npy', label_loss2, allow_pickle=True)
+    np.save('output/domain_loss.npy', domain_loss2, allow_pickle=True)
+    np.save('output/label_loss.npy', label_loss2, allow_pickle=True)
     print(f'\nDuration:{time.time()-start_time:.0f} seconds')
 
 def test(args):
     
     print('model testing')
     
-    seismic_s = np.load('Lowfreq_segyfiles/seam_input_LFnew_3c_minip.npy')[:,:,::2][:, :, 50:]
+    seismic_s = np.load('data/seam_input_LFnew_3c_minip.npy')[:,:,::2][:, :, 50:]
     #print(seismic_s.shape)
-    model_s= np.load('Lowfreq_segyfiles/Seam_model_full.npy')[:,::2][:, 50:]
+    model_s= np.load('data/Seam_model_full.npy')[:,::2][:, 50:]
    
-    seismic_train = np.load('Lowfreq_segyfiles/seam_input_3c_DA_minip.npy')[:,:,::2][:, :, 50:]
-    model_train = np.load('Lowfreq_segyfiles/seam_model_DA_5to120.npy')[:,::2][:, 50:]
-    #model_well= np.load('C:/Users/DELL/Desktop/Lowfreq_segyfiles/imp_final.npy').squeeze()
+    seismic_train = np.load('data/seam_input_3c_DA_minip.npy')[:,:,::2][:, :, 50:]
+    model_train = np.load('data/seam_model_DA_5to120.npy')[:,::2][:, 50:]
     
     seismic_n, model_n = standardize(seismic_s, seismic_train,model_s,model_train,args.no_wells)                                       
     
@@ -189,9 +185,8 @@ def test(args):
     seam_test_loader = DataLoader(seam_test_dataset, batch_size = args.batch_size)
     
     #setup model
-    model_psdn1 = torch.load('saved_models_g/psdn_revgrad_model_git1_syn.pth', weights_only=False).to(device)
-    #print(model_psdn1.eval())
-    model_psdn1.load_state_dict(torch.load('saved_models_g/psdn_revgrad_git1_syn.pth', weights_only=False))
+    model_seam = torch.load('saved_models/seam_revgrad_model_syn.pth', weights_only=False).to(device)
+    model_seam.load_state_dict(torch.load('saved_models_g/seam_revgrad_syn.pth', weights_only=False))
 
     # infer on SEAM
     print("\nInferring ...")
@@ -202,8 +197,8 @@ def test(args):
     mem = 0
     with torch.no_grad():
         for i, (x,y) in enumerate(seam_test_loader):
-          model_psdn1.eval()
-          y_pred  = model_psdn1(x)
+          model_seam.eval()
+          y_pred  = model_seam(x)
           AI_pred[mem:mem+len(x)] = y_pred.squeeze().data
           AI_act[mem:mem+len(x)] = y.squeeze().data
           mem += len(x)
@@ -217,7 +212,7 @@ def test(args):
     AI_pred_un = unnormalized(AI_pred, model_train, args.no_wells)
     AI_act_un = unnormalized(AI_act,model_train, args.no_wells)
 
-    np.save('outputs/seam_AI_pred_revgrad_git1_syn1.npy', AI_pred_un, allow_pickle=True)
+    np.save('outputs/seam_AI_pred_revgrad.npy', AI_pred_un, allow_pickle=True)
     
 
     print(AI_pred.shape)
