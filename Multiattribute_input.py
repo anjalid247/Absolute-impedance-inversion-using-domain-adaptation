@@ -99,5 +99,47 @@ print(stack.shape)
 input = stack.transpose((0,2,1))
 #np.save('filename.npy', input, allow_pickle=True)
 
+# Analysis of recovered missing low-frequency information using envelope
+syn_band = syn_band[np.newaxis,:,:]
+env = env[np.newaxis,:,:]
+# syn and env spectrum
+dt=5
+nt_wav=21
+nfft=2**11
+
+t_wav = np.arange(nt_wav)*(dt/1000)
+t_wav = np.concatenate((np.flipud(-t_wav[1:]),t_wav), axis=0)
+
+#estimate spectrum---synthetic seismic
+wav_est_fft = np.mean(np.abs(np.fft.fft(syn_band[...,:701], nfft, axis=-1)), axis=(0,1))
+fwest = np.fft.fftfreq(nfft, d = dt/1000)
+
+#estimate spectrum---envelope
+wav_est_fft_env = np.mean(np.abs(np.fft.fft(env[...,:701], nfft, axis=-1)), axis=(0,1))
+fwest_env = np.fft.fftfreq(nfft, d = dt/1000)
+#create wavelet in time
+wav_est = np.real(np.fft.ifft(wav_est_fft)[:nt_wav])
+wav_est = np.concatenate((np.flipud(wav_est[1:]), wav_est), axis=0)
+wav_est = wav_est/wav_est.max()
+wcentre = np.argmax(np.abs(wav_est))
+
+from scipy.signal import savgol_filter
+yhat= savgol_filter(wav_est_fft_env, 51,2) # window size 51, polynomial order 2
+
+#function to normalize the data 
+def normalizedata(data):
+    return (data-np.min(data))/(np.max(data)-np.min(data))
+
+figure(figsize=(8,3), dpi=300)
+plt.plot(fwest[:nfft//2], normalizedata(wav_est_fft[:nfft//2]), 'b', label='Bandlimited seismic', lw=1.5)
+plt.plot(fwest_env[:nfft//2], normalizedata(yhat[:nfft//2]), 'r', linestyle='--', label='Seismic envelope', lw=1.5)
+plt.xticks(np.arange(0, 121, step=5))
+plt.ylim(0,1)
+plt.legend(loc='upper right')
+plt.xlabel('Frequency(Hz)')
+plt.ylabel('Normalized amplitude')
+plt.tight_layout()
+plt.show()
+
 
 
