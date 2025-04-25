@@ -141,5 +141,61 @@ plt.ylabel('Normalized amplitude')
 plt.tight_layout()
 plt.show()
 
+# adding Gaussian noise as a data augmentation technique
+#1. to seismic data
+syn_band = syn_band.squeeze()
+mu=0.0
+std5=0.05*np.std(syn_band)
+std10=0.1*np.std(syn_band)
+std15=0.15*np.std(syn_band)
+std20=0.2*np.std(syn_band)
+def gaussian_noise(x,mu,std):
+    noise = np.random.normal(mu,std,size=x.shape)
+    x_noisy = x+noise
+    return x_noisy
 
+syn_band5 = gaussian_noise(syn_band,mu,std5)
+syn_band10 = gaussian_noise(syn_band,mu,std10)
+syn_band15 = gaussian_noise(syn_band,mu,std15)
+syn_band20 = gaussian_noise(syn_band,mu,std20)
+
+# adding the generated data
+syn_bandDA = np.vstack((syn_band, syn_band5,syn_band10,syn_band15,syn_band20))
+
+#2. to envelope
+env = env.squeeze()
+env_std5=0.05*np.std(env)
+env_std10=0.1*np.std(env)
+env_std15=0.15*np.std(env)
+env_std20=0.2*np.std(env)
+
+env_band5 = gaussian_noise(env,mu,env_std5)
+env_band10 = gaussian_noise(env,mu,env_std10)
+env_band15 = gaussian_noise(env,mu,env_std15)
+env_band20 = gaussian_noise(env,mu,env_std20)
+
+# adding the generated data
+env_bandDA = np.vstack((env, env_band5,env_band10,env_band15,env_band20))
+
+#3. to phase
+#phase = phase[np.newaxis,:,:]
+phase_std5=0.05*np.std(phase)
+phase_std10=0.1*np.std(phase)
+phase_std15=0.15*np.std(phase)
+phase_std20=0.2*np.std(phase)
+
+phase_band5 = gaussian_noise(phase,mu,phase_std5)
+phase_band10 = gaussian_noise(phase,mu,phase_std10)
+phase_band15 = gaussian_noise(phase,mu,phase_std15)
+phase_band20 = gaussian_noise(phase,mu,phase_std20)
+
+# adding the generated data
+phase_bandDA = np.vstack((phase, phase_band5,phase_band10,phase_band15,phase_band20))
+
+# input file
+stack_DA = np.dstack((syn_bandDA, env_bandDA, phase_bandDA))
+print(stack_DA.shape)
+
+input_DA = stack_DA.transpose((0,2,1))
+#np.save('filelocation', input_DA, allow_pickle=True)  ----------uncomment this line after providing the file path
 
