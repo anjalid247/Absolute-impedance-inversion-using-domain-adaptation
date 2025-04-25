@@ -9,7 +9,7 @@ from scipy.signal import remez, minimum_phase
 #print(scipy.__version__)
 
 # Loading SEAM model --target domain
-model= np.load('Lowfreq_segyfiles/Seam_model_full.npy')[:,::2][:, 50:]
+model= np.load('data/Seam_model_full.npy')[:,::2][:, 50:]
 print(model.shape)
 
 # generate ref series 
@@ -19,28 +19,27 @@ for j in range(model.shape[1]-1):
     rc[:,j] = (model[:,j+1]-model[:,j])/(model[:,j]+model[:,j+1])
 print(rc.shape)
 
-#generate mini phase wavelet
+#create a minimum-phase wavelet
 freq = [0,10,60, 100]
 fs = 200   # time sample=0.005ms
 desired = [1,0]
 h_linear = remez(2**5, freq, desired, fs=fs)
 h_min= minimum_phase(h_linear, method='hilbert')
 
-# visualization of min phase wavelet
+# Visualization of minimum-phase wavelet
 plt.plot(h_min, c='C1')
 plt.xlim(0,len(h_linear)-1)
 plt.xlabel('Samples')
 plt.ylabel('Amplitude')
 plt.grid(c='k', alpha=0.15)
 
-# create syn seismic
+# create synthetic seismic
 syn_s = []
 for i in range(rc.shape[0]):
     a = np.convolve(h_min, rc[i], mode='same')
     syn_s.append(a)
 syn_s = np.array(syn_s, dtype='float32') 
 print(syn_s.shape)
-
 
 # syn seismic visulization
 plt.figure(figsize=(3,2), dpi=300)
@@ -57,7 +56,7 @@ sos = signal.butter(5, [40,280], 'bandpass', fs=1000, output='sos')
 syn_band = signal.sosfilt(sos, syn_s)
 syn_band = syn_band.reshape((1,1502,701))
 
-dt=4
+dt=5
 nt_wav = 21
 nfft = 2**11
 
@@ -92,14 +91,14 @@ print(env.shape)
 phase  = np.unwrap(np.angle(hil))
 print(phase.shape)
 
-# stacking genereted attributes
+#3. stacking generated attributes --Multi-attribute input
 stack = np.dstack((syn_band, env, phase))
 print(stack.shape)
 
 input = stack.transpose((0,2,1))
 #np.save('filename.npy', input, allow_pickle=True)
 
-# Analysis of recovered missing low-frequency information using envelope
+# Analysis of recovered missing low-frequency information using the envelope
 syn_band = syn_band[np.newaxis,:,:]
 env = env[np.newaxis,:,:]
 # syn and env spectrum
