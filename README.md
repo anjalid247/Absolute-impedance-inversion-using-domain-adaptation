@@ -1,6 +1,6 @@
 # Absolute-impedance-inversion-using-domain-adaptation
 This repository contains the code for absolute impedance inversion using domain adversarial neural network (DANN).
-![Components of DANN framework](https://iitk-my.sharepoint.com/:i:/g/personal/anjalid_iitk_ac_in/EentdZfz5F9Ps0NK7cxGS34Br5HaOQaZn_LtgQa2B15KFQ?e=Y9QvIa)
+![Components of DANN framework](Fig1.jpg)
 
 ## key features 
 1. Here, I have shown the implementation of the DANN framework on the synthetic example. For this benchmark, the Marmousi2 model is used as a source domain (with sufficient labels) and the SEAM subsalt earth model as a target domain (very limited labels).
