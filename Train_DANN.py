@@ -6,10 +6,10 @@ import os
 import torch
 import torch.nn as nn
 from os.path import join
-from core.utils_copy5 import standardize, unnormalized, CustomModule
-from core.datasets_copy import SeismicDataset1D
+from core.utils import standardize, unnormalized, CustomModule
+from core.datasets import SeismicDataset1D
 from torch.utils.data import DataLoader
-from core.model1D_copy import Net
+from core.model1D import Net
 from core.utils_DANN import GradientReversal
 import tqdm
 import torch.nn.functional as F
