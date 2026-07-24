@@ -181,8 +181,8 @@ def test(args):
     seam_test_loader = DataLoader(seam_test_dataset, batch_size = args.batch_size)
     
     #setup model
-    model_seam = torch.load('saved_models/seam_revgrad_model_syn.pth', weights_only=False).to(device)
-    model_seam.load_state_dict(torch.load('saved_models_g/seam_revgrad_syn.pth', weights_only=False))
+    model_seam = torch.load('saved_models/seam_salt_model/seam_revgrad_model_git1_syn.pth', weights_only=False).to(device)
+    model_seam.load_state_dict(torch.load('saved_models/seam_revgrad_git1_syn.pth', weights_only=False))
 
     # infer on SEAM
     print("\nInferring ...")
