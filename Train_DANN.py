@@ -130,7 +130,8 @@ def main(args):
         domain_loss = F.binary_cross_entropy_with_logits(domain_preds, domain_y)
         label_loss = F.mse_loss(label_preds, label_y)
         r = label_loss.item()/(domain_loss.item()+00000000.1)
-        loss = r*domain_loss + label_loss
+        alpha_1 = r*((2/(1+np.exp(-p)))-1)
+        loss = alpha_1*domain_loss + label_loss
         optimizer_seam.zero_grad()
         loss.backward()
         optimizer_seam.step()
