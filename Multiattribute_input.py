@@ -17,7 +17,7 @@ model= np.load('data/Seam_model_full.npy')[:,::2][:, 50:]
 print(model.shape)
 
 # generate ref series 
-rc = np.zeros((1502,701))
+rc = np.zeros((model.shape[0],model.shape[1])) # for seam model
 
 for j in range(model.shape[1]-1):
     rc[:,j] = (model[:,j+1]-model[:,j])/(model[:,j]+model[:,j+1])
