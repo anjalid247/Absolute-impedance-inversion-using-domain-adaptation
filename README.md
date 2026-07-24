@@ -16,4 +16,4 @@ This code is built using PyTorch with GPU support. Follow the instructions on Py
 First, generate the input data using the "Multiattribute_input.py" file for both datasets. And save the input files in the "data" folder. Then use the "Train_DANN.py" file to implement the DANN framework for absolute impedance inversion. 
 
 ## Data
-The data required to run the train_DANN.py file, download the processed multi-attribute input data of Marmousi2 and SEAM subsalt model from synthetic data [folder] (https://drive.google.com/drive/folders/1kZqchGNgeM-voEJgsPATBdSPZjQIxnDu?usp=share_link)
+The data required to run the train_DANN.py file, download the processed multi-attribute input data of Marmousi2 and SEAM subsalt model from synthetic data [folder](https://drive.google.com/drive/folders/1kZqchGNgeM-voEJgsPATBdSPZjQIxnDu?usp=share_link)
