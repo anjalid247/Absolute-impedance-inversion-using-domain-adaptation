@@ -3,7 +3,7 @@ This repository contains the code for absolute impedance inversion using the dom
 ![Components of DANN framework](Fig1.jpg)
 
 ## Key features 
-1. Here, I have shown the implementation of the DANN framework on the synthetic example. For this benchmark, the Marmousi2 model is used as a source domain (with sufficient labels) and the SEAM subsalt earth model as a target domain (very limited labels).
+1. Here, we have shown the implementation of the DANN framework on the synthetic example. For this benchmark, the Marmousi2 model is used as a source domain (with sufficient labels) and the SEAM subsalt earth model as a target domain (very limited labels).
 2. Considering the real data scenario, only 10% of the data of the SEAM model is used for training.
 3. Given the different underlying lithology of both datasets, i.e., Marmousi2 and SEAM, our implementation has shown a significant efficiency in recovering the complex salt features of the SEAM model.
 4. Further, to recover the absolute impedance, we showed the efficacy of the classic envelope attribute to recover the missing low-frequency information from the band-limited seismic data.
@@ -16,4 +16,4 @@ This code is built using PyTorch with GPU support. Follow the instructions on Py
 First, generate the input data using the "Multiattribute_input.py" file for both datasets. And save the input files in the "data" folder. Then use the "Train_DANN.py" file to implement the DANN framework for absolute impedance inversion. 
 
 ## Data
-The data required to run the train_DANN.py file, download the processed multi-attribute input data of Marmousi2 and SEAM subsalt model from folder [https://drive.google.com/drive/folders/1kZqchGNgeM-voEJgsPATBdSPZjQIxnDu?usp=share_link]
+The data required to run the train_DANN.py file, download the processed multi-attribute input data of Marmousi2 and SEAM subsalt model from synthetic data [folder] (https://drive.google.com/drive/folders/1kZqchGNgeM-voEJgsPATBdSPZjQIxnDu?usp=share_link)
