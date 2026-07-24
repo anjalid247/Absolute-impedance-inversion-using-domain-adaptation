@@ -1,4 +1,4 @@
-# Absolute-impedance-inversion-using-domain-adaptation
+# Absolute impedance inversion using domain adaptation
 This repository contains the code for absolute impedance inversion using the domain adversarial neural network (DANN).
 ![Components of DANN framework](Fig1.jpg)
 
