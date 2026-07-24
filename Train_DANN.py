@@ -54,8 +54,8 @@ def main(args):
           nn.Linear(10,1)
     ).to(device)
 
-    seismic_m2 = np.load('data/input_LFnew_seismic_3c_DA.npy').squeeze()
-    model_m2= np.load('data/input_LFnew_imp_3c_DA.npy').squeeze()
+    seismic_m2 = np.load('data/m2_seismic_3ch_DA.npy').squeeze()
+    model_m2= np.load('data/m2_imp_3c_DA.npy').squeeze()
 
     seismic_n_m2, model_n_m2 = standardize(seismic_m2, seismic_m2, model_m2,model_m2, no_wells=12000)   
 
@@ -68,8 +68,8 @@ def main(args):
     loader_source = DataLoader(seam_train_dataset_source, batch_size = args.batch_size, shuffle=True)
 
 
-    seismic_s = np.load('data/seam_input_3c_DA_minip.npy')[:,:,::2][:, :, 50:]
-    model_s = np.load('data/seam_model_DA_5to120.npy')[:,::2][:, 50:]
+    seismic_s = np.load('data/seam_seismic_3ch_DA.npy')[:,:,::2][:, :, 50:]
+    model_s = np.load('data/seam_model_DA.npy')[:,::2][:, 50:]
 
     seismic_n, model_n = standardize(seismic_s,seismic_s, model_s,model_s, no_wells=150)
         
@@ -83,7 +83,7 @@ def main(args):
     loader_target = DataLoader(seam_train_dataset_target, batch_size = args.batch_size, shuffle=True)
     
     #unlabled data_target
-    seismic_s1 = np.load('data/seam_input_LFnew_3c_minip.npy')[:,:,::2][:, :, 50:]
+    seismic_s1 = np.load('data/seam_seismic_3ch.npy')[:,:,::2][:, :, 50:]
     model_s1 = np.load('data/Seam_model_full.npy')[:,::2][:, 50:]
    
     
@@ -164,12 +164,12 @@ def test(args):
     
     print('model testing')
     
-    seismic_s = np.load('data/seam_input_LFnew_3c_minip.npy')[:,:,::2][:, :, 50:]
+    seismic_s = np.load('data/seam_seismic_3c.npy')[:,:,::2][:, :, 50:]
     #print(seismic_s.shape)
     model_s= np.load('data/Seam_model_full.npy')[:,::2][:, 50:]
    
-    seismic_train = np.load('data/seam_input_3c_DA_minip.npy')[:,:,::2][:, :, 50:]
-    model_train = np.load('data/seam_model_DA_5to120.npy')[:,::2][:, 50:]
+    seismic_train = np.load('data/seam_seismic_3c_DA.npy')[:,:,::2][:, :, 50:]
+    model_train = np.load('data/seam_model_DA.npy')[:,::2][:, 50:]
     
     seismic_n, model_n = standardize(seismic_s, seismic_train,model_s,model_train,args.no_wells)                                       
     
