@@ -1,4 +1,8 @@
 #Multiattribute_input
+# This is the script used to apply the data augmentation on the seismic data by adding Gaussian noise. Here an example is shown on the SEAM salt model. And similaly it can be 
+applied to other dataset used in this work i.e., Marmaousi2, Poseidon, and F3. 
+#Note - in this script "DA" represents data augmentation.
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
@@ -190,12 +194,12 @@ phase_band15 = gaussian_noise(phase,mu,phase_std15)
 phase_band20 = gaussian_noise(phase,mu,phase_std20)
 
 # adding the generated data
-phase_bandDA = np.vstack((phase, phase_band5,phase_band10,phase_band15,phase_band20))
+phase_bandDA = np.vstack((phase, phase_band5,phase_band10,phase_band15,phase_band20)) 
 
 # input file
 stack_DA = np.dstack((syn_bandDA, env_bandDA, phase_bandDA))
 print(stack_DA.shape)
 
 input_DA = stack_DA.transpose((0,2,1))
-#np.save('filelocation', input_DA, allow_pickle=True)  ----------uncomment this line after providing the file path
+np.save('./data/seam_seismic_3ch_DA.npy', input_DA) 
 
