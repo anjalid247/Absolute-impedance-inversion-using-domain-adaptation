@@ -1,4 +1,4 @@
-# The code for the gradient reversal layer is taken from the Ganin and Lempitsky (2025). Its an open-source and can be accessed using github repository (https://github.com/jvanvugt/pytorch-domain-adaptation.git)
+# The code for the gradient reversal layer is taken from the Ganin and Lempitsky (2025)(https://arxiv.org/pdf/1409.7495). Its an open-source and can be accessed using github repository (https://github.com/jvanvugt/pytorch-domain-adaptation.git)
 
 from PIL import Image
 
