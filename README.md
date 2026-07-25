@@ -17,6 +17,13 @@ The implementation of the DANN along with a multi-attribute approach is discusse
 ```
 conda env create -f environment_adann.yml
 ```
+Remember to activate the environemnt
+
+```
+conda activate adann_imp
+```
+
+
 
 ## Running the code
 This code is built using PyTorch with GPU support. Follow the instructions on PyTorch's website to install it properly. The code can also be run without GPU, but it will be much slower.
