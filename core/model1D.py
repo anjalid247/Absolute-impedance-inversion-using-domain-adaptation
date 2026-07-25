@@ -1,3 +1,8 @@
+# This model has taken from Alfaraj and AlRegib (2019). 
+#Link of the GitHub repo is https://github.com/motazalfarraj/Semi-supervised-Learning-for-Acoustic-Impedance-Inversion
+
+
+
 import torch.nn as nn
 from torch.nn.utils import weight_norm
 import torch
