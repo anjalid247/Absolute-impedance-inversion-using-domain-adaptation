@@ -68,8 +68,8 @@ def main(args):
     loader_source = DataLoader(seam_train_dataset_source, batch_size = args.batch_size, shuffle=True)
 
 
-    seismic_s = np.load('data/seam_seismic_3ch_DA.npy')[:,:,::2][:, :, 50:]
-    model_s = np.load('data/seam_model_DA.npy')[:,::2][:, 50:]
+    seismic_s = np.load('data/seam_seismic_3ch_DA.npy')[:,:,::2][:, :, 50:]   # for field data implementation please change the file name accordingly
+    model_s = np.load('data/seam_model_DA.npy')[:,::2][:, 50:]  # use avialbe train wells
 
     seismic_n, model_n = standardize(seismic_s,seismic_s, model_s,model_s, no_wells=150)
         
@@ -83,8 +83,8 @@ def main(args):
     loader_target = DataLoader(seam_train_dataset_target, batch_size = args.batch_size, shuffle=True)
     
     #unlabled data_target
-    seismic_s1 = np.load('data/seam_seismic_3ch.npy')[:,:,::2][:, :, 50:]
-    model_s1 = np.load('data/Seam_model_full.npy')[:,::2][:, 50:]
+    seismic_s1 = np.load('data/seam_seismic_3ch.npy')[:,:,::2][:, :, 50:]  # for field data implemention provide the test seimimc section file location
+    model_s1 = np.load('data/Seam_model_full.npy')[:,::2][:, 50:]  
    
     
     traces_seam_validation = np.linspace(0, len(seismic_s1)-1, 1502, dtype=int)
