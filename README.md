@@ -13,9 +13,9 @@ This repository contains the code for absolute impedance inversion using the dom
 The implementation of the DANN along with a multi-attribute approach is discussed in "Seismic absolute acoustic impedance inversion using domain adversarial based transfer learning", doi: https://doi.org/10.1190/image2024-4099826.1
 
 ## Setup 
-'''
+```
 conda env create -f environment_adann.yml
-'''
+```
 
 ## Running the code
 This code is built using PyTorch with GPU support. Follow the instructions on PyTorch's website to install it properly. The code can also be run without GPU, but it will be much slower.
